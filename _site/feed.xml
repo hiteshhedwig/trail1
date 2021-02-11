@@ -3,19 +3,103 @@
   <channel>
     <title>Hedwig Explains</title>
     <description>A healthy mind is an inquisitive mind</description>
-    <link>/</link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 11 Feb 2021 10:19:47 +0530</pubDate>
-    <lastBuildDate>Thu, 11 Feb 2021 10:19:47 +0530</lastBuildDate>
+    <link>https://hiteshhedwig.github.io/trail1/</link>
+    <atom:link href="https://hiteshhedwig.github.io/trail1/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Thu, 11 Feb 2021 13:30:23 +0530</pubDate>
+    <lastBuildDate>Thu, 11 Feb 2021 13:30:23 +0530</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Intuition behind Random Forest</title>
+        <description>&lt;h1 id=&quot;what-are-we-gonna-do-in-this-blog&quot;&gt;What are we gonna do in this blog?&lt;/h1&gt;
+&lt;p&gt;Learning about what goes behind random forest. What is it that beginner struggles understanding random forest. What makes random forest so powerful. Further, we will discuss intuition behind random forest. Explaining random forest in detail with own handcrafted code and sklearn provided.&lt;/p&gt;
+
+&lt;h1 id=&quot;personal-experience&quot;&gt;Personal Experience&lt;/h1&gt;
+&lt;p&gt;When i was starting out with Machine Learning. All i could see the hype of Random Forest being powerful and quite handy in use. I was abit curious. So, i started learning about it in depth. It became a bit hard to comprehend the words like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ensemble&lt;/code&gt; and random forest in general. But after understanding it, i can say it’s really makes sense why random forest works. I’ll be sharing what are my key insights on this.&lt;/p&gt;
+
+&lt;h1 id=&quot;what-is-the-intuition-behind-random-forest&quot;&gt;What is the intuition behind Random Forest?&lt;/h1&gt;
+&lt;p&gt;Random Forest is derived from the concept of Decision Tree. Assuming you know what decision trees are. In a nutshell, When we use lots of decision trees (i.e. 20,100,150) to train &amp;amp; predict the input data. This lot (or Group) of decision trees are known as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ensemble&lt;/code&gt;. Rather than using single decision tree to finalize decision. We use many of them. It’s same as imagine you have to decide which book to buy for statistics. When you do is talking to many people and then buy which most of the people prefer.&lt;/p&gt;
+
+&lt;p&gt;Another example: Let’s say you going to interview. So there will be different rounds of interview and you will be evaluated on different features of yours. Finally, getting selected or not would be what most of the interviewer perceive. If 2 out of 3 agree with selection you will be selected. If 2 out of 3 don’t agree with selection, then you will be rejected.&lt;/p&gt;
+
+&lt;p&gt;Same Goes in Random Forest: You take many decision trees (it could be thousands too), for now let’s say 100 and each of them trained on random data points(row) of training data. Then you use, testing data and each decision tree will predict according to the feature they have been trained on.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Important: All the decision trees shouldn’t be trained on same features. That could lead to biased predictions.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Training on random features(reason why random forest are called random) allows to create more flexible and ungreedy algorithm. Decision tree uses &lt;a href=&quot;https://www.edureka.co/community/46109/what-is-greedy-approach-in-decision-tree-algorithm&quot;&gt;greedy algorithm&lt;/a&gt;.
+So, it’s important to feed random features.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/7/76/Random_forest_diagram_complete.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I hope, you get a bit clarity what it means when we say random forest. Although, your concepts will be totally cleared when you dive into coding the decision tree from scratch.&lt;/p&gt;
+
+&lt;h1 id=&quot;coding-our-own-random-forest&quot;&gt;Coding our own Random forest&lt;/h1&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&amp;gt; from sklearn.datasets import make_moons
+&amp;gt; from sklearn.model_selection import train_test_split
+
+&amp;gt; mo= make_moons(n_samples=10000, noise=0.4) #creating toy data
+&amp;gt; X_train, X_test, y_train, y_test= train_test_split(mo[0], mo[1], test_size=0.2, random_state=42)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Small peak into data and label.We are looking at first 5 data points and their label(or target). As you can see below, Left side array is X and Y value. And Right Side Array is labels of respective row value.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&amp;gt; X_train[:5], y_train[:5]
+
+(array([[ 0.10186633, -0.20643133],
+        [-0.24668162,  1.0486827 ],
+        [-0.57215016,  0.30076258],
+        [ 0.05560597,  0.9361636 ],
+        [-0.91425428, -0.33931685]]), array([1, 0, 0, 1, 0]))
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Just a simple look at our data. Green and Purple are the different classes and in this we have to predict if X and Y coordinates are provided what will be the class of the point.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;%matplotlib inline
+import matplotlib.pyplot as plt
+
+plt.scatter(mo[0][:,0], mo[0][:,1], c=mo[1], s=1)
+plt.show()
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/img/moon.png&quot; alt=&quot;plot&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 11 Feb 2021 00:00:00 +0530</pubDate>
+        <link>https://hiteshhedwig.github.io/trail1/2021/02/11/intuition-behind-random-forest/</link>
+        <guid isPermaLink="true">https://hiteshhedwig.github.io/trail1/2021/02/11/intuition-behind-random-forest/</guid>
+        
+        <category>randomforest</category>
+        
+        <category>datascience</category>
+        
+        <category>intuition</category>
+        
+        
+      </item>
     
       <item>
         <title>Hello 2021</title>
         <description>
 </description>
         <pubDate>Wed, 10 Feb 2021 00:00:00 +0530</pubDate>
-        <link>/2021/02/10/hello-2021/</link>
-        <guid isPermaLink="true">/2021/02/10/hello-2021/</guid>
+        <link>https://hiteshhedwig.github.io/trail1/2021/02/10/hello-2021/</link>
+        <guid isPermaLink="true">https://hiteshhedwig.github.io/trail1/2021/02/10/hello-2021/</guid>
         
         <category>trail1</category>
         
@@ -94,8 +178,8 @@
 
 </description>
         <pubDate>Thu, 29 Jan 2015 17:30:00 +0530</pubDate>
-        <link>/2015/01/29/hello-2015/</link>
-        <guid isPermaLink="true">/2015/01/29/hello-2015/</guid>
+        <link>https://hiteshhedwig.github.io/trail1/2015/01/29/hello-2015/</link>
+        <guid isPermaLink="true">https://hiteshhedwig.github.io/trail1/2015/01/29/hello-2015/</guid>
         
         <category>life</category>
         
